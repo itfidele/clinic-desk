@@ -1,4 +1,4 @@
-# Clinic Patient Management System
+# Clinic Patient Management System 🩺
 
 ## Introduction
 
@@ -23,6 +23,13 @@ cargo install
 cargo run
 ```
 
-> [!NOTE]  
-> This project was created for practice my rust skills as i'm still new to rust, 
+## Requirements
+- iced
+- rust 
+- mysql
 
+
+
+## Thank you
+> [!NOTE]  
+> This project was created for learning purpose, if you want to learn rust with me feel free to create issue or PR.
