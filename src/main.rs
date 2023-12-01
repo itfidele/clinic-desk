@@ -1,5 +1,5 @@
 use iced::{ Element, Settings, Application};
-use iced::widget::{ button, text_input, column,text };
+use iced::widget::{ button, text_input, column,text,row,container,scrollable };
 use iced::{Command,window};
 use iced::theme::Theme;
 
@@ -97,14 +97,29 @@ impl ClinicDesk{
 
     fn dashboard_view(&self) -> Element<Message> {
         
-        column!(
-            text(format!("Welcome your email is {}",self.email)),
-            button("Logout").on_press(Message::Logout)
-        ).into()
+        row!(
+            column!(
+                text("Clinic Desk"),
+                text("Dashboard"),
+                text("Patients"),
+                text("Appointments"),
+                text("Doctors"),
+                text("Settings"),
+                button("Logout").on_press(Message::Logout)
+            ).padding(10).height(iced::Length::Fill),
+            column!(
+                text(format!("Welcome your email is {}",self.email)),
+                
+            ).padding(40)
+        )
+        .into()
 
     }
 
     fn login_view(&self) -> Element<Message> {
+        
+
+        
         column!(
             text("Clinic Desk"),
             
