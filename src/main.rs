@@ -1,14 +1,15 @@
 use iced::{ Element, Settings, Application};
-use iced::widget::{ button, text_input, column,text,row,container,scrollable };
+use iced::widget::{ Button,Image, Scrollable,Space, text_input, column,text,row,button,container };
 use iced::{Command,window};
 use iced::theme::Theme;
+use iced::widget::image::Handle;
 
 
-fn main() ->iced::Result{
+fn main() -> iced::Result{
 
     ClinicDesk::run(Settings { 
         window: window::Settings{
-            size:(500,500),
+            size:(800,500),
             ..window::Settings::default()
         },
         ..Settings::default()
@@ -22,6 +23,8 @@ struct ClinicDesk{
     password: String,
     alert_msg:String,
 }
+
+
 
 
 #[derive(Debug, Clone)]
@@ -40,6 +43,12 @@ impl Application for ClinicDesk{
     type Theme = Theme;
 
     fn new(_flags: ()) -> (ClinicDesk, Command<Message>) {
+        ClinicDesk{
+            is_logged_in: false,
+            email: "".to_string(),
+            password: "".to_string(),
+            alert_msg: "".to_string(),
+        };
         (Self::default(), Command::none())
         
     }
@@ -73,8 +82,6 @@ impl Application for ClinicDesk{
         } else {
             self.dashboard_view()
         }
-
-       
         
     }
     
@@ -83,8 +90,10 @@ impl Application for ClinicDesk{
 
 impl ClinicDesk{
     fn login(&mut self){
-        if self.email == "admin@admin.com" && self.password == "admin" {
+        if self.email == "admin" && self.password == "admin" {
             self.is_logged_in = true;
+            self.email = "".to_string();
+            self.password = "".to_string();
         } else {
             self.alert_msg = "Invalid email or password".to_string();
         }
@@ -96,21 +105,82 @@ impl ClinicDesk{
 
 
     fn dashboard_view(&self) -> Element<Message> {
-        
-        row!(
-            column!(
-                text("Clinic Desk"),
-                text("Dashboard"),
-                text("Patients"),
-                text("Appointments"),
-                text("Doctors"),
-                text("Settings"),
-                button("Logout").on_press(Message::Logout)
-            ).padding(10).height(iced::Length::Fill),
+        let btn_logout = Button::new("Logout")
+            .on_press(Message::Logout)
+            .padding(10)
+            .width(iced::Length::Fill);
+
+        let dashboard_btn = Button::new("Dashboard")
+            .on_press(Message::Login)
+            .padding(10)
+            .width(iced::Length::Fill);
+
+        let patients_btn = Button::new("Patients")
+            .on_press(Message::Login)
+            .padding(10)
+            .width(iced::Length::Fill);
+
+        let appointments_btn = Button::new("Appointments").padding(10).width(iced::Length::Fill).width(iced::Length::Fill);
+
+        let listv = Scrollable::new(
             column!(
                 text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)), text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)), text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)), text(format!("Welcome your email is {}",self.email)), text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+                text(format!("Welcome your email is {}",self.email)),
+
+
                 
-            ).padding(40)
+            ),
+            
+            
+        ).width(iced::Length::Fill).height(iced::Length::Fill);
+
+        column!(
+            text("Clinic Desk").size(20),
+            row!(
+                dashboard_btn,
+                patients_btn,
+                appointments_btn,
+                btn_logout
+            ),
+            Space::with_height(20),
+            text("Recent Patients").size(20),
+            Space::with_height(20),
+            listv
         )
         .into()
 
@@ -118,10 +188,14 @@ impl ClinicDesk{
 
     fn login_view(&self) -> Element<Message> {
         
+        let clinic_logo = Image::new(Handle::from_path("resources/clinic_logo.png")).width(100).height(100);
 
         
-        column!(
-            text("Clinic Desk"),
+        container(column!(
+            container(clinic_logo).width(iced::Length::Fill).center_x(),
+            container(
+                text("Clinic Patient Management System").size(18)
+            ).width(iced::Length::Fill).padding(20).center_x(),
             
             column!(
                 text("Email"),
@@ -134,9 +208,9 @@ impl ClinicDesk{
                 } else {
                     text("")
                 },
-                button("Login").height(40).on_press(Message::Login)
+                button("Login").width(iced::Length::Fill).on_press(Message::Login)
             )
-        ).into()
+        ).width(400)).width(iced::Length::Fill).height(iced::Length::Fill).center_x().center_y().into()
     }
 
 }
