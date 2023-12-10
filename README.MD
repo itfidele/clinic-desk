@@ -19,7 +19,7 @@ To get started, clone the repository and install the dependencies:
 git clone https://github.com/itfidele/clinic-desk.git
 
 cd clinic-desk
-cargo install
+cargo install --path .
 cargo run
 ```
 
@@ -27,6 +27,7 @@ cargo run
 - iced
 - rust 
 - mysql
+- libpq(macos)
 
 
 
