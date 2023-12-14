@@ -1,3 +1,4 @@
+use diesel::{ExpressionMethods, OptionalExtension, QueryDsl, RunQueryDsl};
 use iced::theme::Theme;
 use iced::widget::image::Handle;
 use iced::widget::{
@@ -5,10 +6,15 @@ use iced::widget::{
 };
 use iced::{window, Command};
 use iced::{Application, Element, Settings};
+use crate::db::establish_connection;
+use crate::schema::users::dsl::*;
+use crate::schema::users::{email, password};
+use diesel::prelude::*;
+use self::models::User;
 
 mod db;
-mod models;
 mod schema;
+mod models;
 
 fn main() -> iced::Result {
     ClinicDesk::run(Settings {
@@ -39,8 +45,8 @@ enum Message {
 impl Application for ClinicDesk {
     type Executor = iced::executor::Default;
     type Message = Message;
-    type Flags = ();
     type Theme = Theme;
+    type Flags = ();
 
     fn new(_flags: ()) -> (ClinicDesk, Command<Message>) {
         ClinicDesk {
@@ -68,11 +74,11 @@ impl Application for ClinicDesk {
             Message::Logout => {
                 self.logout();
             }
-            Message::EmailChanged(email) => {
-                self.email = email;
+            Message::EmailChanged(other_email)=>{
+                self.email = other_email;
             }
-            Message::PasswordChanged(password) => {
-                self.password = password;
+            Message::PasswordChanged(pass)=>{
+                self.password = pass;
             }
         }
         Command::none()
@@ -93,12 +99,28 @@ impl Application for ClinicDesk {
 
 impl ClinicDesk {
     fn login(&mut self) {
-        if self.email == "admin" && self.password == "admin" {
-            self.is_logged_in = true;
-            self.email = "".to_string();
-            self.password = "".to_string();
-        } else {
-            self.alert_msg = "Invalid email or password".to_string();
+        let connection = &mut establish_connection();
+        let result = users
+            .filter(email.eq(&self.email))
+            .filter(password.eq(&self.password))
+            .select(User::as_select())
+            .first::<User>(connection)
+            .optional();
+
+        match result {
+            Ok(Some(_user))=>{
+                println!("User logged in {:?}", _user);
+                self.is_logged_in = true;
+                self.email = "".to_string();
+                self.password = "".to_string();
+            },
+            Ok(None) =>{
+                self.is_logged_in = false;
+                self.alert_msg = "Invalid email or password".to_string();
+            }
+            Err(_)=>{
+                self.alert_msg = "Something gone wrong, please try again later ".to_string();
+            }
         }
     }
 
