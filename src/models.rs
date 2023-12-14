@@ -1,5 +1,5 @@
 use crate::schema::users;
-use diesel::{AsChangeset, Insertable, Queryable};
+use diesel::{AsChangeset, Insertable, Queryable, Selectable};
 
 #[derive(Insertable)]
 #[table_name = "users"]
@@ -9,7 +9,7 @@ pub struct NewUser<'a> {
     pub email: &'a str,
 }
 
-#[derive(Debug, Queryable, AsChangeset)]
+#[derive(Debug,Queryable,Selectable, AsChangeset,)]
 pub struct User {
     pub id: i32,
     pub username: String,
