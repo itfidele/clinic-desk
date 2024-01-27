@@ -1,10 +1,25 @@
-
-
-
 #[derive(Debug, Default)]
-pub struct  ClinicDesk{
-    pub is_logged_in: bool,
+pub struct ClinicDesk {
+    pub login_field: LoginField,
+    pub page: Page,
+    pub alert_msg: String,
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct LoginField {
     pub email: String,
     pub password: String,
-    pub alert_msg: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Page {
+    Login,
+    Dashboard,
+    Logout,
+}
+
+impl Default for Page {
+    fn default() -> Self {
+        Page::Login
+    }
 }

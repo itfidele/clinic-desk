@@ -1,7 +1,5 @@
-
-
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub enum Status{
+pub enum Status {
     Init,
     Loading,
     Success,
