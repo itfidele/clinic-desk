@@ -9,6 +9,7 @@ pub struct NewUser<'a> {
     pub email: &'a str,
 }
 
+
 #[derive(Debug,Queryable,Selectable, AsChangeset,)]
 pub struct User {
     pub id: i32,

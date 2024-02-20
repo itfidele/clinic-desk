@@ -43,8 +43,8 @@ impl Application for ClinicDesk {
             Message::Router(page) => {
                 self.page = page;
             }
-            Message::EmailChanged(other_email) => {
-                self.login_field.email = other_email;
+            Message::EmailChanged(otheremail) => {
+                self.login_field.email = otheremail;
             }
             Message::PasswordChanged(pass) => {
                 self.login_field.password = pass;

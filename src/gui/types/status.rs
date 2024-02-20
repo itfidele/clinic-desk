@@ -1,4 +1,4 @@
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug)]
 pub enum Status {
     Init,
     Loading,
