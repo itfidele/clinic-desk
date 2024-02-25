@@ -8,9 +8,9 @@ mod schema;
 fn main() -> iced::Result {
     ClinicDesk::run(Settings {
         window: window::Settings {
-            size: (1190, 670), // start size
+            size: (590, 400), // start size
             position: Position::Centered,
-            min_size: Some((1190, 610)), // min size allowed
+            // min_size: Some((1190, 610)), // min size allowed
             max_size: None,
             visible: true,
             resizable: true,

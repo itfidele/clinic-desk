@@ -6,8 +6,8 @@ use iced::Element;
 
 pub fn login_page(page: &ClinicDesk) -> Element<Message> {
     let clinic_logo = Image::new(Handle::from_path("resources/clinic_logo.png"))
-        .width(100)
-        .height(100);
+        .width(50)
+        .height(50);
     container(
         column!(
             container(clinic_logo).width(iced::Length::Fill).center_x(),
@@ -23,10 +23,9 @@ pub fn login_page(page: &ClinicDesk) -> Element<Message> {
                 text_input("Enter your password", &page.login_field.password)
                     .password()
                     .on_input(Message::PasswordChanged),
-                if !page.alert_msg.is_empty() {
-                    text(&page.alert_msg)
-                } else {
-                    text("")
+                match page.alert_msg.is_empty() {
+                    false => text(&page.alert_msg),
+                    true => text(""),
                 },
                 button("Login")
                     .width(iced::Length::Fill)

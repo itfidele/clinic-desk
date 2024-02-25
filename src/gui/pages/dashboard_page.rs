@@ -7,7 +7,7 @@ use crate::gui::types::message::Message;
 
 pub fn dashboard_page(dashboard: &ClinicDesk) -> Element<Message> {
     let btn_logout = Button::new("Logout")
-        .on_press(Message::Router(Page::Logout))
+        .on_press(Message::Router(Page::Login))
         .padding(10)
         .width(iced::Length::Fill);
 
@@ -20,12 +20,12 @@ pub fn dashboard_page(dashboard: &ClinicDesk) -> Element<Message> {
         .push(Text::new("      Src IP address       Src port      Dst IP address       Dst port  Layer4   Layer7     Packets     Bytes   Country").vertical_alignment(Vertical::Center).height(Length::FillPortion(2)));
 
     let dashboard_btn = Button::new("Dashboard")
-        .on_press(Message::Router(Page::Logout))
+        .on_press(Message::Router(Page::Login))
         .padding(10)
         .width(iced::Length::Fill);
 
     let patients_btn = Button::new("Patients")
-        .on_press(Message::Router(Page::Logout))
+        .on_press(Message::Router(Page::Login))
         .padding(10)
         .width(iced::Length::Fill);
 

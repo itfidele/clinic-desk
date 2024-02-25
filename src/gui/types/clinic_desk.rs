@@ -14,8 +14,7 @@ pub struct LoginField {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Page {
     Login,
-    Dashboard,
-    Logout,
+    Dashboard
 }
 
 impl Default for Page {
